@@ -74,35 +74,48 @@ nav a:hover {
     color: white;
     position: relative;
     overflow: hidden;
-    min-height: 100vh;
+    height: 60vh;
 }
 
-.bg-grid {
+.bg-slideshow {
     position: absolute;
     top: 0;
     left: 0;
-    width: 100%;
+    /*
+        A very large width is needed to create a continuous, looping track.
+        This width should be at least double the total width of the images.
+        We'll use a large enough value to ensure the slideshow never ends.
+    */
+    width: 8360px; /* (10 images * 400px) * 2 = 8000px, plus margins */
     height: 100%;
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    grid-template-rows: repeat(2, 1fr);
-    gap: 2px;
+    overflow: hidden;
     z-index: 1;
+    display: flex;
+    animation: scrollRight 30s linear infinite;
 }
 
-.grid-item {
-    background-size: cover;
+.slide-item {
+    flex-shrink: 0;
+    width: 400px;
+    height: 100%;
+    /*
+        Change 'contain' to 'cover' to ensure horizontal photos fill the space.
+        This will prevent the images from appearing small in the shorter vertical space.
+    */
+    background-size: cover; 
+    background-repeat: no-repeat;
     background-position: center;
-    opacity: 1;        /* Controls the transparency of background images */
-    transition: all 0.3s ease;
     filter: grayscale(20%) brightness(0.8);
+    margin-right: 20px;
 }
 
-.grid-item:hover {
-    opacity: 0.8;
-    filter: grayscale(0%) brightness(1);
-    transform: scale(1.02);
-    z-index: 2;
+@keyframes scrollRight {
+    0% { transform: translateX(0); }
+    /*
+        The total distance to scroll is half the container's width,
+        ensuring a perfect loop from the last image to the first.
+    */
+    100% { transform: translateX(-4180px); }
 }
 
 .hero-overlay {
